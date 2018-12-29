@@ -36,7 +36,7 @@ else:
     print "\nSe generarán {} números aleatorios y son estos:".format(numero)
 
     for i in range(1, numero+1):
-        lista_de_numeros.append(randint(1, 100))
+        lista_de_numeros.append(randint(1, numero))
 
     x = 1
     for element in lista_de_numeros:
