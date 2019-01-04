@@ -20,6 +20,16 @@ def repetimos(texto):
         return None
 
 
+def es_un_numero(numero):
+    lo_es = None
+    try:
+        numero = int(numero)
+        lo_es = True
+    except ValueError:
+        lo_es = False
+    return lo_es
+
+
 def desea_repertir():
     print
 
@@ -28,7 +38,12 @@ def desea_repertir():
         op = raw_input("¿Desea repetir ('s/S'o 'n/N'): ")
         op = op.upper()[0]
         if repetimos(op) == None:
-            print "\nLa opcion elegida no es correcta."
+            if desea_salir(op):
+                print "\nSaliendo de la aplicación..."
+                no_es_correcta = False
+                raw_input("Pulse una tecla.")
+            else:
+                print "\nLa opcion elegida no es correcta."
         else:
             no_es_correcta = False
 
@@ -50,9 +65,9 @@ def muestra_menu_inicial():
         es_un_texto = False
         op = raw_input("Elige opción ('q/Q' para salir): ")
         if not desea_salir(op[0]):
-            try:
+            if es_un_numero(op):
                 op = int(op)
-            except ValueError:
+            else:
                 print "\nSeleccione un valor válido."
                 es_un_texto = True
 
@@ -168,8 +183,76 @@ def euromillones(tipo):
         x += 1
 
 
+def personalizado():
+    print
+    print "\nLotería Personalizada: "
+    vamos_bien = True
+    quiero_salir = False
+    doble_numeros = None
+    while vamos_bien:
+        cantidad_numeros = raw_input("Introduzca la cantidad de numeros que desea que se generen aleatoriamente ('q/Q' para salir): ")
+        if es_un_numero(cantidad_numeros):
+            cantidad_numeros = int(cantidad_numeros)
+            if cantidad_numeros < 50:
+                doble_numeros = cantidad_numeros * ((100/7)*2)
+            else:
+                doble_numeros = cantidad_numeros * ((200/9)/2)
+            vamos_bien = False
+            print "Se generarán {} números de {} números aleatorios.".format(cantidad_numeros, doble_numeros)
+        elif desea_salir(cantidad_numeros):
+            raw_input("Saliendo del programa... Pulse una tecla.")
+            vamos_bien = False
+            quiero_salir = True
+        else:
+            print "Error al introducir el número."
+
+    if not quiero_salir:
+        numeros = []
+        personalizar = []
+        for i in range(1, doble_numeros):
+            numeros.append(i)
+        numeros.sort()
+
+        testigo = True
+        #x=1
+        while testigo:
+            if len(numeros) > cantidad_numeros:
+                numeros_aleatorios = randint(1, doble_numeros)
+                try:
+                    numeros.remove(numeros_aleatorios)
+                except ValueError:
+                    #print "{}.-Numero repetido ({}).".format(x, numeros_aleatorios)
+                    #x += 1
+                    personalizar.append(numeros_aleatorios)
+            else:
+                testigo = False
+
+        personalizar.sort()
+
+        print "\nNúmeros generados aleatoriamente: "
+        y = 1
+        for element in numeros:
+            print "{}.-{}".format(y, element)
+            y += 1
+
+#        print "\nY estos números han salido repetido: "
+#        x = 1
+#        for element in personalizar:
+#            print "{}.-{}".format(x, element)
+#            x += 1
+
+#        print "\nVeamos otra manera de sacar los numero repetidos con la funcion 'Count()': "
+#        print "\nVeamos primero la lista completa: "
+#        print "\n{}".format(personalizar)
+#        for i in range(1, doble_numeros):
+#            print "El numero {} ha salido {} veces repetido.".format(i, personalizar.count(i))
+
+    return quiero_salir
+
+
 def main():
     no_salir = True
+    testigo = False
     while no_salir:
         option = muestra_menu_inicial()
         if not option == 0:
@@ -177,9 +260,15 @@ def main():
                 primitiva_y_bonoloto(option)
             elif option == 3:
                 euromillones(option)
+            elif option == 4:
+                if personalizado():
+                    testigo = True
 
-            if not desea_repertir():
+            if testigo:
                 no_salir = False
+            else:
+                if not desea_repertir():
+                    no_salir = False
 
 # ----------------------------------------------------------------------------------------------------------------------
 
