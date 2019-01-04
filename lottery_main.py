@@ -214,15 +214,12 @@ def personalizado():
         numeros.sort()
 
         testigo = True
-        #x=1
         while testigo:
             if len(numeros) > cantidad_numeros:
                 numeros_aleatorios = randint(1, doble_numeros)
                 try:
                     numeros.remove(numeros_aleatorios)
                 except ValueError:
-                    #print "{}.-Numero repetido ({}).".format(x, numeros_aleatorios)
-                    #x += 1
                     personalizar.append(numeros_aleatorios)
             else:
                 testigo = False
@@ -234,18 +231,6 @@ def personalizado():
         for element in numeros:
             print "{}.-{}".format(y, element)
             y += 1
-
-#        print "\nY estos números han salido repetido: "
-#        x = 1
-#        for element in personalizar:
-#            print "{}.-{}".format(x, element)
-#            x += 1
-
-#        print "\nVeamos otra manera de sacar los numero repetidos con la funcion 'Count()': "
-#        print "\nVeamos primero la lista completa: "
-#        print "\n{}".format(personalizar)
-#        for i in range(1, doble_numeros):
-#            print "El numero {} ha salido {} veces repetido.".format(i, personalizar.count(i))
 
     return quiero_salir
 
